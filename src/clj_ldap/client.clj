@@ -85,7 +85,7 @@
   (let [k (keyword (.getName attr))
         byte-value (contains? (set byte-valued) (keyword (.getName attr)))]
     (cond
-      (= :objectClass k)     [k (set (get-value attr byte-value))]
+      (= :objectClass k)     [k (set (let [value (get-value attr byte-value)] (if (coll? value) value [value])))]
       :else                  [k (get-value attr byte-value)])))
 
 (defn- entry-as-map
